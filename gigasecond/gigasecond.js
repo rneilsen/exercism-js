@@ -3,8 +3,8 @@
 // convenience to get you started writing code faster.
 //
 
+const GIGASECOND_IN_MS = 10 ** 12;
+
 export const gigasecond = (date) => {
-  let newDate = new Date(date);
-  newDate.setUTCSeconds(date.getUTCSeconds() + 10 ** 9);
-  return newDate;
+  return new Date(date.getTime() + GIGASECOND_IN_MS);
 };

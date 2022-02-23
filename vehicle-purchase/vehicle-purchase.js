@@ -43,11 +43,13 @@ export function chooseVehicle(option1, option2) {
  * @returns expected resell price in the dealership
  */
 export function calculateResellPrice(originalPrice, age) {
+  let discountMultiplier;
   if (age < 3) {
-    return originalPrice * 0.8;
+    discountMultiplier = 0.8;
   } else if (age <= 10) {
-    return originalPrice * 0.7;
+    discountMultiplier = 0.7;
   } else {
-    return originalPrice * 0.5;
+    discountMultiplier = 0.5;
   }
+  return discountMultiplier * originalPrice;
 }

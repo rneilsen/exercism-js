@@ -4,6 +4,9 @@
 // the @ts-check directive. It will give you helpful autocompletion when
 // implementing this exercise.
 
+const VEHICLES_REQUIRING_LICENCES = ["car", "truck"];
+const responseFormat = (vehicle) => `${vehicle} is clearly the better choice.`;
+
 /**
  * Determines whether or not you need a licence to operate a certain kind of vehicle.
  *
@@ -11,9 +14,7 @@
  * @returns {boolean} whether a license is required
  */
 export function needsLicense(kind) {
-  const LICENCE_REQD_VEHICLES = ["car", "truck"];
-
-  return LICENCE_REQD_VEHICLES.includes(kind);
+  return VEHICLES_REQUIRING_LICENCES.includes(kind);
 }
 
 /**
@@ -25,12 +26,10 @@ export function needsLicense(kind) {
  * @returns {string} a sentence of advice which option to choose
  */
 export function chooseVehicle(option1, option2) {
-  const RESPONSE_SUFFIX = " is clearly the better choice.";
-
   if (option1 < option2) {
-    return option1 + RESPONSE_SUFFIX;
+    return responseFormat(option1);
   } else {
-    return option2 + RESPONSE_SUFFIX;
+    return responseFormat(option2);
   }
 }
 

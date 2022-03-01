@@ -5,7 +5,6 @@
 // implementing this exercise.
 
 const VEHICLES_REQUIRING_LICENCES = ["car", "truck"];
-const responseFormat = (vehicle) => `${vehicle} is clearly the better choice.`;
 
 /**
  * Determines whether or not you need a licence to operate a certain kind of vehicle.
@@ -26,11 +25,13 @@ export function needsLicense(kind) {
  * @returns {string} a sentence of advice which option to choose
  */
 export function chooseVehicle(option1, option2) {
+  let selectedVehicle;
   if (option1 < option2) {
-    return responseFormat(option1);
+    selectedVehicle = option1;
   } else {
-    return responseFormat(option2);
+    selectedVehicle = option2;
   }
+  return `${selectedVehicle} is clearly the better choice.`;
 }
 
 /**

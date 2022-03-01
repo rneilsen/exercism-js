@@ -18,12 +18,7 @@ const DRINK_MIXING_TIMES = {
  * @param {string} name
  * @returns {number} time in minutes
  */
-export function timeToMixJuice(name) {
-  if (Object.prototype.hasOwnProperty.call(DRINK_MIXING_TIMES, name)) {
-    return DRINK_MIXING_TIMES[name];
-  }
-  return 2.5;
-}
+export const timeToMixJuice = (name) => DRINK_MIXING_TIMES[name] || 2.5;
 
 const LIME_WEDGES_PER_SIZE = { small: 6, medium: 8, large: 10 };
 

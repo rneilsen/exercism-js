@@ -4,6 +4,14 @@
 // the @ts-check directive. It will give you helpful autocompletion when
 // implementing this exercise.
 
+const DRINK_MIXING_TIMES = {
+  "Pure Strawberry Joy": 0.5,
+  Energizer: 1.5,
+  "Green Garden": 1.5,
+  "Tropical Island": 3,
+  "All or Nothing": 5,
+};
+
 /**
  * Determines how long it takes to prepare a certain juice.
  *
@@ -11,21 +19,13 @@
  * @returns {number} time in minutes
  */
 export function timeToMixJuice(name) {
-  switch (name) {
-    case "Pure Strawberry Joy":
-      return 0.5;
-    case "Energizer":
-      return 1.5;
-    case "Green Garden":
-      return 1.5;
-    case "Tropical Island":
-      return 3;
-    case "All or Nothing":
-      return 5;
-    default:
-      return 2.5;
+  if (Object.prototype.hasOwnProperty.call(DRINK_MIXING_TIMES, name)) {
+    return DRINK_MIXING_TIMES[name];
   }
+  return 2.5;
 }
+
+const LIME_WEDGES_PER_SIZE = { small: 6, medium: 8, large: 10 };
 
 /**
  * Calculates the number of limes that need to be cut
@@ -41,17 +41,7 @@ export function limesToCut(wedgesNeeded, limes) {
   while (wedgesCut < wedgesNeeded && limes.length > 0) {
     const nextLime = limes.shift();
     limesCut++;
-    switch (nextLime) {
-      case "small":
-        wedgesCut += 6;
-        break;
-      case "medium":
-        wedgesCut += 8;
-        break;
-      case "large":
-        wedgesCut += 10;
-        break;
-    }
+    wedgesCut += LIME_WEDGES_PER_SIZE[nextLime];
   }
   return limesCut;
 }

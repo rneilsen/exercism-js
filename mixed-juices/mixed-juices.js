@@ -38,8 +38,10 @@ const LIME_WEDGES_PER_SIZE = { small: 6, medium: 8, large: 10 };
 export function limesToCut(wedgesNeeded, limes) {
   let wedgesCut = 0;
   let limesCut = 0;
-  while (wedgesCut < wedgesNeeded && limes.length > 0) {
-    const nextLime = limes.shift();
+  let limesCopy = [...limes];
+
+  while (wedgesCut < wedgesNeeded && limesCopy.length > 0) {
+    const nextLime = limesCopy.shift();
     limesCut++;
     wedgesCut += LIME_WEDGES_PER_SIZE[nextLime];
   }

@@ -18,7 +18,7 @@ const DRINK_MIXING_TIMES = {
  * @param {string} name
  * @returns {number} time in minutes
  */
-export const timeToMixJuice = (name) => DRINK_MIXING_TIMES[name] || 2.5;
+export const timeToMixJuice = (name) => DRINK_MIXING_TIMES[name] ?? 2.5;
 
 const LIME_WEDGES_PER_SIZE = { small: 6, medium: 8, large: 10 };
 
@@ -51,10 +51,10 @@ export function limesToCut(wedgesNeeded, limes) {
  * @returns {string[]} remaining orders after the time is up
  */
 export function remainingOrders(timeLeft, orders) {
-  let ordersCopy = [...orders];
-  while (timeLeft > 0) {
-    const nextOrder = ordersCopy.shift();
-    timeLeft -= timeToMixJuice(nextOrder);
+  let i = 0;
+  while (timeLeft > 0 && i < orders.length) {
+    timeLeft -= timeToMixJuice(orders[i]);
+    i++;
   }
-  return ordersCopy;
+  return orders.slice(i);
 }

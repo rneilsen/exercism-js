@@ -1,14 +1,9 @@
-//
-// This is only a SKELETON file for the 'Word Count' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
+function splitIntoWords(word) {
+  const wordRegex = /\w+('\w+)?/g;
+  return word.toLowerCase().match(wordRegex);
+}
 
 export const countWords = (input) => {
-  function splitIntoWords(word) {
-    const wordRegex = /([a-z]+'[a-z]|[a-z]+|[0-9]+)/g;
-    return word.toLowerCase().match(wordRegex);
-  }
-
   let wordCounts = {};
   const currentCount = (someWord) => wordCounts[someWord] ?? 0;
 

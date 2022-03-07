@@ -55,8 +55,8 @@ export function updateScore(scoreBoard, player, points) {
  * @returns {Record<string, number>} updated score board
  */
 export function applyMondayBonus(scoreBoard) {
-  for (let player in scoreBoard) {
-    updateScore(scoreBoard, player, 100);
+  for (const player in scoreBoard) {
+    updateScore(scoreBoard, player, +100);
   }
   return scoreBoard;
 }

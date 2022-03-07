@@ -31,14 +31,11 @@ const LIME_WEDGES_PER_SIZE = { small: 6, medium: 8, large: 10 };
  * @returns {number} number of limes cut
  */
 export function limesToCut(wedgesNeeded, limes) {
-  let wedgesCut = 0;
   let limesCut = 0;
-  let limesCopy = [...limes];
-
-  while (wedgesCut < wedgesNeeded && limesCopy.length > 0) {
-    const nextLime = limesCopy.shift();
+  for (const lime of limes) {
+    if (wedgesNeeded <= 0) break;
+    wedgesNeeded -= LIME_WEDGES_PER_SIZE[lime];
     limesCut++;
-    wedgesCut += LIME_WEDGES_PER_SIZE[nextLime];
   }
   return limesCut;
 }
@@ -51,10 +48,11 @@ export function limesToCut(wedgesNeeded, limes) {
  * @returns {string[]} remaining orders after the time is up
  */
 export function remainingOrders(timeLeft, orders) {
-  let i = 0;
-  while (timeLeft > 0 && i < orders.length) {
-    timeLeft -= timeToMixJuice(orders[i]);
-    i++;
+  let ordersMixed = 0;
+  for (const order of orders) {
+    if (timeLeft <= 0) break;
+    timeLeft -= timeToMixJuice(order);
+    ordersMixed++;
   }
-  return orders.slice(i);
+  return orders.slice(ordersMixed);
 }

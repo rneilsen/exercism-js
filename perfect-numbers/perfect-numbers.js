@@ -19,16 +19,27 @@ export const classify = (number) => {
     return "deficient"; /* have to handle 1 as special case */
   }
 
-  let factors = [1, ...getDivisors(number, 2), ...getDivisors(number, 3)];
+  let factors = new Set([
+    1,
+    ...getDivisors(number, 2),
+    ...getDivisors(number, 3),
+  ]);
   for (let i = 6; i < number / 2 + 1; i += 6) {
     // apart from 2 and 3, all primes are of the form (6k +/- 1)
-    factors = factors.concat(getDivisors(number, i - 1));
-    factors = factors.concat(getDivisors(number, i + 1));
+    if (!factors.has(i - 1)) {
+      for (let item of getDivisors(number, i - 1)) {
+        factors.add(item);
+      }
+    }
+    if (!factors.has(i + 1)) {
+      for (let item of getDivisors(number, i + 1)) {
+        factors.add(item);
+      }
+    }
   }
 
-  const factorSet = new Set(factors);
   let aliquotSum = 0;
-  for (let item of factorSet) aliquotSum += item;
+  for (let item of factors) aliquotSum += item;
 
   if (aliquotSum < number) {
     return "deficient";

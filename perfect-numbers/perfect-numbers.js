@@ -1,5 +1,5 @@
 export const classify = (number) => {
-  if (number <= 0) {
+  if (number <= 0 || !Number.isInteger(number)) {
     throw "Classification is only possible for natural numbers.";
   }
   let aliquotSum = 0;

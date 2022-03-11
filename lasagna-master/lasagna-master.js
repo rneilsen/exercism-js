@@ -1,6 +1,10 @@
 /// <reference path="./global.d.ts" />
 // @ts-check
 
+const DEFAULT_LAYER_PREPARATION_TIME = 2;
+const INGREDIENT_QUANTITIES_PER_LAYER = { noodles: 50, sauce: 0.2 };
+const STANDARD_SERVES_PER_RECIPE = 2;
+
 export function cookingStatus(timeRemaining) {
   switch (timeRemaining) {
     case undefined:
@@ -13,17 +17,26 @@ export function cookingStatus(timeRemaining) {
 }
 
 export function preparationTime(layers, avgTime) {
-  return layers.length * (avgTime ?? 2);
+  return layers.length * (avgTime ?? DEFAULT_LAYER_PREPARATION_TIME);
 }
 
-const arrayCount = (array, value) =>
-  array.filter((item) => item === value).length;
+function arrayTally(array) {
+  let tally = {};
+  for (let item of array) {
+    tally[item] = (tally[item] ?? 0) + 1;
+  }
+  return tally;
+}
 
 export function quantities(layers) {
-  return {
-    noodles: 50 * arrayCount(layers, "noodles"),
-    sauce: 0.2 * arrayCount(layers, "sauce"),
-  };
+  let requiredQuantities = {};
+  const layerTally = arrayTally(layers);
+  for (let ingredient in INGREDIENT_QUANTITIES_PER_LAYER) {
+    requiredQuantities[ingredient] =
+      INGREDIENT_QUANTITIES_PER_LAYER[ingredient] *
+      (layerTally[ingredient] ?? 0);
+  }
+  return requiredQuantities;
 }
 
 export function addSecretIngredient(friendsList, myList) {
@@ -32,7 +45,7 @@ export function addSecretIngredient(friendsList, myList) {
 
 export function scaleRecipe(recipe, people) {
   let newRecipe = {};
-  const scaleFactor = people / 2;
+  const scaleFactor = people / STANDARD_SERVES_PER_RECIPE;
   for (let ingredient in recipe) {
     newRecipe[ingredient] = scaleFactor * recipe[ingredient];
   }

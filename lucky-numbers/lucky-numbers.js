@@ -40,15 +40,11 @@ export function luckyNumber(value) {
  * @returns {string} error message
  */
 export function errorMessage(input) {
-  switch (input) {
-    case "":
-    case null:
-    case undefined:
-      return "Required field";
-    default:
-      if (Number(input) && Number(input) !== 0) {
-        return "";
-      }
-      return "Must be a number besides 0";
+  if (input) {
+    if (Number(input) && Number(input) !== 0) {
+      return "";
+    }
+    return "Must be a number besides 0";
   }
+  return "Required field";
 }

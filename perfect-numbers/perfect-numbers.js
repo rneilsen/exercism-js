@@ -1,45 +1,55 @@
-function getDivisors(number, divisor) {
-  if (number % divisor !== 0) {
+function getOddMultiplesThatDivide(base, target) {
+  // return all odd multiples of base that divide target
+  if (target % base !== 0) {
     return [];
   }
-  let n = divisor;
+  let n = base;
   let factors = [];
-  while (n < number) {
-    if (number % n === 0) factors.push(n);
-    n += divisor;
+  while (n < target) {
+    if (target % n === 0) factors.push(n);
+    n += 2 * base;
   }
   return factors;
+}
+
+function calcAliquotSum(number) {
+  if (number === 1) return 0;
+
+  let aliquotSum = 1; // 1 is a factor of everything
+
+  // hardcode summing of even factors to reduce memory load
+  let n = 2;
+  while (n <= number / 2) {
+    if (number % n === 0) aliquotSum += n;
+    n += 2;
+  }
+
+  let oddFactors = new Set([...getOddMultiplesThatDivide(3, number)]);
+
+  for (let i = 6; i < number / 2 + 1; i += 6) {
+    // apart from 2 and 3, all primes are of the form (6k +/- 1)
+    if (!oddFactors.has(i - 1)) {
+      for (let item of getOddMultiplesThatDivide(i - 1, number)) {
+        oddFactors.add(item);
+      }
+    }
+    if (!oddFactors.has(i + 1)) {
+      for (let item of getOddMultiplesThatDivide(i + 1, number)) {
+        oddFactors.add(item);
+      }
+    }
+  }
+
+  for (let item of oddFactors) aliquotSum += item;
+  return aliquotSum;
 }
 
 export const classify = (number) => {
   if (number <= 0 || !Number.isInteger(number)) {
     throw "Classification is only possible for natural numbers.";
   }
-  if (number === 1) {
-    return "deficient"; /* have to handle 1 as special case */
-  }
 
-  let factors = new Set([
-    1,
-    ...getDivisors(number, 2),
-    ...getDivisors(number, 3),
-  ]);
-  for (let i = 6; i < number / 2 + 1; i += 6) {
-    // apart from 2 and 3, all primes are of the form (6k +/- 1)
-    if (!factors.has(i - 1)) {
-      for (let item of getDivisors(number, i - 1)) {
-        factors.add(item);
-      }
-    }
-    if (!factors.has(i + 1)) {
-      for (let item of getDivisors(number, i + 1)) {
-        factors.add(item);
-      }
-    }
-  }
-
-  let aliquotSum = 0;
-  for (let item of factors) aliquotSum += item;
+  const aliquotSum = calcAliquotSum(number);
 
   if (aliquotSum < number) {
     return "deficient";

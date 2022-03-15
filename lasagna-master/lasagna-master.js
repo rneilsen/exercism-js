@@ -29,12 +29,10 @@ function arrayTally(array) {
 }
 
 export function quantities(layers) {
-  let requiredQuantities = {};
+  let requiredQuantities = { ...INGREDIENT_QUANTITIES_PER_LAYER };
   const layerTally = arrayTally(layers);
-  for (let ingredient in INGREDIENT_QUANTITIES_PER_LAYER) {
-    requiredQuantities[ingredient] =
-      INGREDIENT_QUANTITIES_PER_LAYER[ingredient] *
-      (layerTally[ingredient] ?? 0);
+  for (let ingredient in requiredQuantities) {
+    requiredQuantities[ingredient] *= layerTally[ingredient] ?? 0;
   }
   return requiredQuantities;
 }
